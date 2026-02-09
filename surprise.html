@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Surprise!</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: radial-gradient(circle, #1a001a, #000000);
+      color: white;
+      min-height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-direction: column;
+      padding: 20px;
+      scroll-behavior: smooth;
+    }
+
+    h1 {
+      font-size: 55px;
+      color: #ff4d88;
+      text-shadow: 0px 0px 15px #ff0066;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 20px;
+      color: #ffb6c1;
+      max-width: 750px;
+      line-height: 30px;
+      margin-bottom: 10px;
+    }
+
+    /* Scroll Hint */
+    .scroll-hint {
+      margin-top: 10px;
+      font-size: 16px;
+      color: #ffb6c1;
+      animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* Unique Neon Frame */
+    .photo-frame {
+      position: relative;
+      margin-top: 25px;
+      width: 360px;
+      height: 460px;
+      padding: 12px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ff0080, #ffcc00, #00ffff, #ff0080);
+      background-size: 300% 300%;
+      animation: borderGlow 4s ease infinite;
+      box-shadow: 0px 0px 25px rgba(255, 0, 102, 0.9);
+    }
+
+    @keyframes borderGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Inner Frame */
+    .photo-inner {
+      width: 100%;
+      height: 100%;
+      border-radius: 22px;
+      background: rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      box-shadow: inset 0px 0px 20px rgba(255, 255, 255, 0.2);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Photo original no crop */
+    #slide {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 22px;
+      transition: opacity 1s ease-in-out;
+    }
+
+    /* Cute hearts on frame */
+    .photo-frame::before,
+    .photo-frame::after {
+      content: "💖";
+      position: absolute;
+      font-size: 28px;
+      animation: heartPulse 2s infinite alternate;
+    }
+
+    .photo-frame::before {
+      top: -15px;
+      left: -15px;
+    }
+
+    .photo-frame::after {
+      bottom: -15px;
+      right: -15px;
+    }
+
+    @keyframes heartPulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.3); }
+    }
+
+    /* Button */
+    button {
+      margin-top: 25px;
+      padding: 15px 40px;
+      font-size: 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background-color: #ff0066;
+      color: white;
+      transition: 0.3s;
+      box-shadow: 0px 0px 15px #ff0066;
+      position: sticky;
+      bottom: 15px;
+    }
+
+    button:hover {
+      background-color: #cc0052;
+      transform: scale(1.05);
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 30px;
+      animation: floatUp 4s linear infinite;
+      opacity: 0.8;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(100vh) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 40px;
+      }
+
+      p {
+        font-size: 16px;
+        line-height: 25px;
+        padding: 0 10px;
+      }
+
+      .photo-frame {
+        width: 280px;
+        height: 360px;
+      }
+
+      button {
+        font-size: 16px;
+        padding: 12px 25px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 32px;
+      }
+
+      p {
+        font-size: 15px;
+      }
+
+      .photo-frame {
+        width: 240px;
+        height: 320px;
+      }
+
+      button {
+        width: 85%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>💖 Surprise 💖</h1>
+
+  <p>
+    You unlocked our sweetest memories 😍 <br><br>
+    🌹 You are my favorite person forever 🌹 <br>
+    Thank you for being in my life ❤️
+  </p>
+
+  <div class="scroll-hint">👇 Scroll for more love 👇</div>
+
+  <div class="photo-frame">
+    <div class="photo-inner">
+      <img id="slide" src="images/pic1.jpg" alt="Our Photo">
+    </div>
+  </div>
+
+<button onclick="goFinal()">💌 Open My Love Letter</button>
+
+  <script>
+    // Floating hearts animation
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.classList.add("heart");
+      heart.innerHTML = "💖";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDuration = (Math.random() * 2 + 3) + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 4000);
+    }
+
+    setInterval(createHeart, 250);
+
+    // Slideshow with smooth fade
+    let photos = [
+      "images/pic1.jpg",
+      "images/pic2.jpg",
+      "images/pic3.jpg",
+      "images/pic4.jpg"
+    ];
+
+    let index = 0;
+
+    setInterval(() => {
+      const slide = document.getElementById("slide");
+      slide.style.opacity = 0;
+
+      setTimeout(() => {
+        index = (index + 1) % photos.length;
+        slide.src = photos[index];
+        slide.style.opacity = 1;
+      }, 800);
+
+    }, 4000); // 4 seconds slow romantic
+   
+
+   function goFinal() {
+  window.location.href = "final.html";
+}
+  </script>
+
+</body>
+</html>
