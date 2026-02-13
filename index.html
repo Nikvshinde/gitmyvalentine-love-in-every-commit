@@ -61,9 +61,10 @@
       background-color: white;
       color: #ff0066;
       border: 2px solid #ff0066;
-      box-shadow: 0px 0px 15px rgba(255, 0, 102, 0.4);
+      box-shadow: 0px 0px 15px rgba(255, 0,  102, 0.4);
       left: 55%;
       top: 80px;
+      user-select: none;
     }
 
     /* Tablet */
@@ -125,20 +126,30 @@
     const noBtn = document.getElementById("noBtn");
     const container = document.querySelector(".btn-container");
 
-    noBtn.addEventListener("mouseover", () => {
+    function moveNoButton() {
       const maxX = container.clientWidth - noBtn.offsetWidth;
       const maxY = container.clientHeight - noBtn.offsetHeight;
 
-      let x = Math.floor(Math.random() * maxX);
-      let y = Math.floor(Math.random() * maxY);
-
-      // prevent overlap with YES button area
-      if (x < 200 && y > 50 && y < 150) {
-        x = x + 150;
-      }
+      const x = Math.floor(Math.random() * maxX);
+      const y = Math.floor(Math.random() * maxY);
 
       noBtn.style.left = x + "px";
       noBtn.style.top = y + "px";
+    }
+
+    // Desktop hover
+    noBtn.addEventListener("mouseover", moveNoButton);
+
+    // Mobile touch
+    noBtn.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      moveNoButton();
+    });
+
+    // Prevent click selection
+    noBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      moveNoButton();
     });
 
     function goNext() {
